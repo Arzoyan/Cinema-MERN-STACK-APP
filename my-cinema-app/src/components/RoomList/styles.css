@@ -1,0 +1,50 @@
+.tabs {
+  background-color: #212327;
+  width: 80%;
+  height: 100px;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
+  overflow: hidden;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radtus: 10px;
+  -o-border-radtus: 10px;
+}
+.tabs li {
+  background-color: #212327;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c4cfde;
+  font-family: "Poppins", sans-serif;
+  transition: 0.55;
+  -webkit-transition: 0.55;
+  -moz-transition: 0.55;
+  -ms-transition: 0.55;
+  -o-transition: 0.55;
+  cursor: pointer;
+}
+.tabs li:hover {
+  background: linear-gradient(145deg, #1e2024, #23272b);
+  box-shadow: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
+  color: #f9004d;
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.active {
+  background: linear-gradient(145deg, #1e2024, #23272b);
+  box-shadow: 10px 10px 19px #1c1e22, -10px - 10px 19px #262a2e;
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+  color: #f00 !important;
+}

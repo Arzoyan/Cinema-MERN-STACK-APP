@@ -1,0 +1,14 @@
+.image_root {
+  position: relative;
+  width: 150px;
+}
+
+.image_root_close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  color: #f00;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}

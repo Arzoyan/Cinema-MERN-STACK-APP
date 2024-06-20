@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: azure;
+}
+
+.seats-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 50px);
+  gap: 18px;
+  margin: 20px 0;
+  justify-content: center;
+  /* transform: rotateX(20deg) rotateY(34deg) rotateZ(0deg); */
+  transform-style: preserve-3d;
+}
+
+.seats-grid button {
+  transform: perspective(600px) rotateX(-40deg);
+  border-radius: 6px;
+  cursor: pointer;
+  width: 60px;
+  height: 80px;
+}
+
+.seats-grid button:hover {
+  transform: translate3d(0px, 0px, 16px);
+  border-color: #f00;
+}
+
+.seats-grid button.booked {
+  cursor: not-allowed;
+  background: #f00;
+}
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  padding: 0;
+  margin: 0;
+}
