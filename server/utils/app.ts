@@ -7,19 +7,19 @@ import path from "path";
 const app = express();
 
 // Serve static files from the user frontend
-app.use("/user", express.static(path.join(__dirname, "my-cinema-app/build")));
+app.use("/user", express.static(path.join(__dirname, "./my-cinema-app/build")));
 
 // Serve static files from the admin frontend
-app.use("/admin", express.static(path.join(__dirname, "admin-panel/build")));
+app.use("/admin", express.static(path.join(__dirname, "./admin-panel/build")));
 
 // Catchall handler for user frontend
 app.get("/user/*", (_, res) => {
-  res.sendFile(path.join(__dirname, "my-cinema-app/build", "index.html"));
+  res.sendFile(path.join(__dirname, "./my-cinema-app/build", "index.html"));
 });
 
 // Catchall handler for admin frontend
 app.get("/admin/*", (_, res) => {
-  res.sendFile(path.join(__dirname, "admin-panel/build", "index.html"));
+  res.sendFile(path.join(__dirname, "./admin-panel/build", "index.html"));
 });
 
 // middlewares
