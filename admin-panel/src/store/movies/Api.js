@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_MOVIES = "http://localhost:4000/api/movies/";
+const API_MOVIES = "https://cinema-server-mern.onrender.com/api/movies/";
 
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
   const response = await fetch(API_MOVIES);
