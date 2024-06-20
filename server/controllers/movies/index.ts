@@ -83,11 +83,17 @@ const getSingleMovie = async (req: Request, res: Response): Promise<void> => {
 const updateMovie = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const movie = await MovieModel.findByIdAndUpdate(id, req.body);
+    const newMovieData = {
+      ...req.body,
+      image: (req as Request & { locals: { posterName: string } }).locals
+        .posterName,
+    };
+    const movie = await MovieModel.findByIdAndUpdate(id, newMovieData);
     if (!movie) {
       res.status(404).json({ message: "movie not found" });
       return;
     }
+
     const updatedMovie = await MovieModel.findById(id);
     res.status(200).json(updatedMovie);
   } catch (error) {

@@ -1,21 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Modal, Input, Select, Form } from "antd";
+import { Button, Modal, Input, Select } from "antd";
 import { fetchAddMovie, fetchUpdateMovie } from "../../store/movies/Api";
 import { selectRooms } from "../../store/room/slice";
-import FileUpload, { getBase64 } from "../fileUpload";
+import FileUpload from "../fileUpload";
 
 import "./styles.css";
+import API_URL from "../../config";
 
 const MovieModal = ({ item, open, setOpen }) => {
-  const [movieState, setMovieState] = useState({});
+  const [roomId, setRoomId] = useState("");
+  const [title, setTitle] = useState("");
+  const [time, setTime] = useState("");
+  const [image, setImage] = useState();
   const rooms = useSelector(selectRooms);
 
   useEffect(() => {
-    if (item?.title) {
-      setMovieState(item);
+    if (item.title) {
+      updateMovieValues(item);
     }
-  }, [item]);
+  }, [item.title]);
+
+  const onRestState = () => {
+    setRoomId("");
+    setTitle("");
+    setTime("");
+    setImage("");
+  };
 
   const roomOptions = useMemo(() => {
     return rooms.map((item) => {
@@ -27,22 +38,17 @@ const MovieModal = ({ item, open, setOpen }) => {
 
   const onCloseModal = () => {
     setOpen(false);
-    setMovieState("");
+    // onRestState();
   };
 
   const onValidationForm = () => {
-    if (!Object.keys(movieState).length) {
+    if (!title.trim()) {
       return false;
     }
-    if (!movieState.title.trim()) {
-      updateMovieValues("title", "");
+    if (!time.trim()) {
       return false;
     }
-    if (!movieState.time.trim()) {
-      updateMovieValues("time", "");
-      return false;
-    }
-    if (!movieState.roomId) {
+    if (!roomId) {
       return false;
     }
     return true;
@@ -52,32 +58,31 @@ const MovieModal = ({ item, open, setOpen }) => {
     if (!onValidationForm()) {
       return false;
     }
+    let data = { roomId, image, time, title };
     if (!item?.title) {
-      if (movieState.image) {
-        // movieState.image = await getBase64(movieState.image.originFileObj);
-        movieState.image = movieState.image.originFileObj;
+      if (data.image) {
+        data.image = data.image.originFileObj;
       }
-
-      dispatch(fetchAddMovie(movieState));
+      dispatch(fetchAddMovie(data));
     } else {
-      if (movieState.image?.originFileObj) {
-        // movieState.image = await getBase64(movieState.image.originFileObj);
-        movieState.image = movieState.image.originFileObj;
+      if (data.image?.originFileObj) {
+        data.image = data.image.originFileObj;
       }
 
-      dispatch(fetchUpdateMovie({ id: item._id, body: movieState }));
+      dispatch(fetchUpdateMovie({ id: item._id, body: data }));
     }
     onCloseModal();
   };
 
-  const updateMovieValues = (key, value) => {
-    setMovieState((prevState) => {
-      return { ...prevState, [key]: value };
-    });
+  const updateMovieValues = (item) => {
+    setRoomId(item.roomId);
+    setTitle(item.title);
+    setTime(item.time);
+    setImage(item.image);
   };
 
   const handleChangeRoom = (value) => {
-    updateMovieValues("roomId", value);
+    setRoomId(value);
   };
 
   return (
@@ -95,6 +100,7 @@ const MovieModal = ({ item, open, setOpen }) => {
         footer={
           <>
             <Button
+              disabled={!onValidationForm()}
               type="primary"
               onClick={(e) => {
                 e.preventDefault();
@@ -110,78 +116,49 @@ const MovieModal = ({ item, open, setOpen }) => {
         open={open}
         onCancel={onCloseModal}
       >
-        <Form variant="filled" style={{ maxWidth: 600 }}>
-          <Form.Item
-            label="Room"
-            name="roomId"
-            validateTrigger="onBlur"
-            rules={[{ required: true, message: "Please Select Room!" }]}
-          >
-            <Select
-              value={movieState.roomId}
-              style={{ width: "100%" }}
-              onChange={handleChangeRoom}
-              options={roomOptions || []}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Title"
-            name="title"
-            rules={[{ required: true, message: "Movie Name is required !" }]}
-            validateTrigger="onBlur"
-          >
-            <Input
-              value={movieState.title}
-              onChange={(e) => {
-                e.preventDefault();
-                updateMovieValues("title", e.target.value);
-              }}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Start Time"
-            name="time"
-            validateTrigger="onBlur"
-            rules={[{ required: true, message: "Movie time is required !" }]}
-          >
-            <Input
-              value={movieState.time}
-              onChange={(e) => {
-                e.preventDefault();
-                updateMovieValues("time", e.target.value);
-              }}
-            />
-          </Form.Item>
-          <Form.Item label="Description" name="description">
-            <Input
-              value={movieState.description}
-              onChange={(e) => {
-                e.preventDefault();
-                updateMovieValues("description", e.target.value);
-              }}
-            />
-          </Form.Item>
+        <>
+          <h4>Select Room</h4>
+          <Select
+            value={roomId}
+            style={{ width: "100%" }}
+            onChange={handleChangeRoom}
+            options={roomOptions || []}
+          />
+          <h4> Movie Title</h4>
+          <Input
+            value={title}
+            onChange={(e) => {
+              e.preventDefault();
+              setTitle(e.target.value);
+            }}
+          />
+          <h4> Movie Time</h4>
+          <Input
+            value={time}
+            onChange={(e) => {
+              setTime(e.target.value);
+            }}
+          />
           <h4>Movie Banner</h4>
-
-          {!movieState?.image || movieState?.image?.originFileObj ? (
+          {!image || image?.originFileObj ? (
             <FileUpload
-              fileList={movieState?.image ? [movieState.image] : []}
-              setFileList={(image) => updateMovieValues("image", image[0])}
+              fileList={image ? [image] : []}
+              setFileList={(image) => setImage(image[0])}
             />
           ) : (
             <div className="image_root">
               <button
                 className="image_root_close"
                 onClick={() => {
-                  updateMovieValues("image", "");
+                  setImage();
                 }}
               >
                 X
               </button>
-              <img width={150} src={movieState?.image} />
+              <img width={150} src={`${API_URL}/img/movies/${image}`} />
             </div>
           )}
-        </Form>
+        </>
       </Modal>
     </>
   );

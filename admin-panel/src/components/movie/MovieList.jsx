@@ -15,7 +15,7 @@ import API_URL from "../../config";
 const MovieList = () => {
   const [modal, contextHolder] = Modal.useModal();
   const [open, setOpen] = useState(false);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(null);
   const dispatch = useDispatch();
   const movies = useSelector(selectMovies);
   const status = useSelector(selectMoviesStatus);
@@ -50,14 +50,16 @@ const MovieList = () => {
 
   return (
     <>
-      <MovieModal
-        open={open}
-        setOpen={(isOpen) => {
-          setOpen(isOpen);
-          setItem({});
-        }}
-        item={item}
-      />
+      {item && (
+        <MovieModal
+          open={open}
+          setOpen={(isOpen) => {
+            setOpen(isOpen);
+            setItem({});
+          }}
+          item={item}
+        />
+      )}
       <List
         grid={{ gutter: 16, column: 4 }}
         dataSource={movies}

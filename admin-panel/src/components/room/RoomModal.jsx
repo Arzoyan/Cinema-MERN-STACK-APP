@@ -58,7 +58,7 @@ const RoomModal = ({ item, open, setOpen }) => {
       >
         <h4>Room Name</h4>
         <Input
-          placeholder="Basic usage"
+          placeholder="Add Room name"
           value={roomName}
           onChange={(e) => {
             e.preventDefault();
