@@ -66,7 +66,10 @@ const MovieList = () => {
             <Card
               cover={
                 item.image && (
-                  <img alt="example" src={`${API_URL}/${item.image}`} />
+                  <img
+                    alt="example"
+                    src={`${API_URL}/img/movies/${item.image}`}
+                  />
                 )
               }
               title={item.title}

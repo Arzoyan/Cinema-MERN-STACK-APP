@@ -36,7 +36,7 @@ const MovieList = ({ onSelectMovie, movieId }) => {
           >
             {movie.image && (
               <img
-                src={`${API_URL}/${movie.image}`}
+                src={`${API_URL}/img/movies/${movie.image}`}
                 alt={movie.title}
                 style={{ width: "100%" }}
               />
