@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import "./styles.css";
 import { fetchSeats } from "../../store/seats/Api";
 import Loader from "../Loader";
+import API_URL from "../../config";
 
 const MovieList = ({ onSelectMovie, movieId }) => {
   const movies = useSelector(selectMoviesByRoom);
@@ -35,7 +36,7 @@ const MovieList = ({ onSelectMovie, movieId }) => {
           >
             {movie.image && (
               <img
-                src={`http://localhost:4000/img/movies/${movie.image}`}
+                src={`${API_URL}/${movie.image}`}
                 alt={movie.title}
                 style={{ width: "100%" }}
               />

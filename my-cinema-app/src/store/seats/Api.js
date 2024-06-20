@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API_URL from "../../config";
 
-const API_SEATS = `${API_URL || "http://localhost:4000/api"}/seats`;
+const API_SEATS = `${API_URL || "http://localhost:4000"}/api/seats`;
 
 export const fetchSeats = createAsyncThunk("seats/fetchSeats", async (id) => {
   const response = await fetch(`${API_SEATS}/${id}`);

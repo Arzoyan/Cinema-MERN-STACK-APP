@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API_URL from "../../config";
 
-const API_MOVIES = `${API_URL || "http://localhost:4000/api"}/movies/`;
+const API_MOVIES = `${API_URL || "http://localhost:4000"}/api/movies/`;
 
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
   const response = await fetch(API_MOVIES);

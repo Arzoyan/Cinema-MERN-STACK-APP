@@ -10,6 +10,7 @@ import {
   selectMoviesStatus,
 } from "../../store/movies/slice";
 import MovieModal from "./MovieModal";
+import API_URL from "../../config";
 
 const MovieList = () => {
   const [modal, contextHolder] = Modal.useModal();
@@ -65,10 +66,7 @@ const MovieList = () => {
             <Card
               cover={
                 item.image && (
-                  <img
-                    alt="example"
-                    src={`http://localhost:4000/img/movies/${item.image}`}
-                  />
+                  <img alt="example" src={`${API_URL}/${item.image}`} />
                 )
               }
               title={item.title}
