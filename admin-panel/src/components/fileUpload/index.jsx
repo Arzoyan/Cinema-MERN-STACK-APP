@@ -16,7 +16,6 @@ const FileUpload = ({ fileList, setFileList }) => {
   const [previewImage, setPreviewImage] = useState("");
 
   const handlePreview = async (file) => {
-    console.log(">>>>>>>>>>>>>>>>>file", file);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -27,11 +26,6 @@ const FileUpload = ({ fileList, setFileList }) => {
 
   const handleChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    console.log(
-      "%csrccomponents\fileUploadindex.jsx:30 previewImage",
-      "color: #26bfa5;",
-      previewImage,
-    );
   };
   const beforeUpload = (file) => {
     const isLt1M = file.size / 1024 / 1024 < 1;

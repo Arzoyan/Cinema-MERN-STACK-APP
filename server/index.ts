@@ -5,12 +5,13 @@ import RoomRouts from "./routes/rooms";
 import MovieRouts from "./routes/movies";
 import SeatsRouts from "./routes/seats";
 import app from "./utils/app";
+import uploadImage from "./utils/upload";
 
 async function bootstrap() {
   await mongo.connect();
 
   app.use("/api/rooms", RoomRouts);
-  app.use("/api/movies", MovieRouts);
+  app.use("/api/movies", uploadImage, MovieRouts);
   app.use("/api/seats", SeatsRouts);
 
   app.listen(PORT, () => {

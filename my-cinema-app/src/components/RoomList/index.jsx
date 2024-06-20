@@ -4,6 +4,8 @@ import { selectRoomStatus, selectRooms } from "../../store/room/slice";
 import { fetchRooms } from "../../store/room/Api";
 
 import "./styles.css";
+import { fetchMovies } from "../../store/movie/Api";
+import Loader from "../Loader";
 
 const RoomList = ({ onSelectRoom, roomId }) => {
   const rooms = useSelector(selectRooms);
@@ -17,7 +19,11 @@ const RoomList = ({ onSelectRoom, roomId }) => {
   }, [roomStatus, dispatch]);
 
   if (roomStatus === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-wrapper">
+        <Loader />;
+      </div>
+    );
   }
 
   return (
@@ -28,6 +34,7 @@ const RoomList = ({ onSelectRoom, roomId }) => {
             key={room._id}
             onClick={() => {
               onSelectRoom(room._id);
+              dispatch(fetchMovies(room._id));
             }}
             className={room._id === roomId ? `active` : ""}
           >

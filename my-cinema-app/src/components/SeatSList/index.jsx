@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSeats } from "../../store/seats/slice";
-import { fetchSates, updateSeat } from "../../store/seats/Api";
+import { selectSeats, selectStatus } from "../../store/seats/slice";
+import { updateSeat } from "../../store/seats/Api";
 
 import "./styles.css";
+import Loader from "../Loader";
 
 const bookedSeat = {
   available: "reserved",
@@ -13,10 +13,7 @@ const bookedSeat = {
 const SeatSelection = ({ movieId }) => {
   const dispatch = useDispatch();
   const seatsList = useSelector(selectSeats);
-
-  useEffect(() => {
-    dispatch(fetchSates(movieId));
-  }, [dispatch, movieId]);
+  const seatsStatus = useSelector(selectStatus);
 
   const handleSeatClick = (seat) => {
     const updatedData = {
@@ -27,21 +24,33 @@ const SeatSelection = ({ movieId }) => {
     dispatch(updateSeat({ id: movieId, updatedData }));
   };
 
+  if (seatsStatus === "loading") {
+    return (
+      <div className="loading-wrapper">
+        <Loader />;
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="seats-grid">
-        {seatsList.map((seat, i) => (
-          <button
-            key={i}
-            className={`${seat.status !== "available" ? "booked" : ""}  `}
-            onClick={(e) => {
-              e.preventDefault;
-              handleSeatClick(seat);
-            }}
-          >
-            {seat.seatNumber}
-          </button>
-        ))}
+        {seatsList.map((seat, i) =>
+          seat.seatNumber === seatsStatus ? (
+            <Loader key={seat.seatNumber} />
+          ) : (
+            <button
+              key={i}
+              className={`${seat.status !== "available" ? "booked" : ""}  `}
+              onClick={(e) => {
+                e.preventDefault;
+                handleSeatClick(seat);
+              }}
+            >
+              {seat.seatNumber}
+            </button>
+          ),
+        )}
       </div>
     </div>
   );

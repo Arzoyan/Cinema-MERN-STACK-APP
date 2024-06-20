@@ -22,6 +22,7 @@ const seatsSlice = createSlice({
 });
 
 export const selectSeats = (state) => state.seats.seats;
+export const selectStatus = (state) => state.seats.status;
 
 export const { bookSeat } = seatsSlice.actions;
 export const selectBookedSeats = (state, roomId, movieId) =>

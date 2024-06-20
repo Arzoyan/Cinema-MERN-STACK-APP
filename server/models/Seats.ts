@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { generateDefaultSeats } from "../utils/helpers";
 const { ObjectId } = mongoose.Schema.Types;
 
 export interface ISeat {
@@ -26,7 +25,7 @@ const seatsSchema: Schema<ISeats> = new Schema<ISeats>(
     seats: {
       type: [seatSchema],
       required: true,
-      default: generateDefaultSeats,
+      default: [],
     },
 
     movieId: {

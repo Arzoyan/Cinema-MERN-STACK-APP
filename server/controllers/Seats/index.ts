@@ -30,20 +30,18 @@ const updateSeat = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: "Movie seats not found" });
       return;
     }
-
     // Find the seat by seatNumber
     const seatIndex = seatsDocument.seats.findIndex(
       (seat) => seat.seatNumber === seatNumber,
     );
-
+    console.log(seatsDocument.seats, "seatsDocument.seats");
     if (seatIndex === -1) {
-      res.status(404).json({ message: "Seat not found" });
-      return;
+      //add  seat for reserve
+      seatsDocument.seats.push({ seatNumber, status });
+    } else {
+      // Update the seat status
+      seatsDocument.seats[seatIndex].status = status;
     }
-
-    // Update the seat status
-    seatsDocument.seats[seatIndex].status = status;
-
     // Save the updated document
     await seatsDocument.save();
 

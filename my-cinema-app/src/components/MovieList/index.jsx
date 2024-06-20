@@ -1,28 +1,24 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies } from "../../store/movie/Api";
+import { useSelector } from "react-redux";
 import {
   selectMoviesByRoom,
   selectMoviesStatus,
 } from "../../store/movie/slice";
-
+import { useDispatch } from "react-redux";
 import "./styles.css";
+import { fetchSeats } from "../../store/seats/Api";
+import Loader from "../Loader";
 
-const MovieList = ({ roomId, onSelectMovie, movieId }) => {
-  const movies = useSelector((state) => selectMoviesByRoom(state));
-  const moviesStatus = useSelector((state) => selectMoviesStatus(state));
-
+const MovieList = ({ onSelectMovie, movieId }) => {
+  const movies = useSelector(selectMoviesByRoom);
+  const moviesStatus = useSelector(selectMoviesStatus);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(moviesStatus, "moviesStatus");
-
-    dispatch(fetchMovies(roomId));
-  }, [roomId]);
-
-  console.log(movies, "movies");
   if (moviesStatus === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-wrapper">
+        <Loader />;
+      </div>
+    );
   }
 
   return (
@@ -31,19 +27,22 @@ const MovieList = ({ roomId, onSelectMovie, movieId }) => {
         {movies.map((movie) => (
           <li
             key={movie._id}
-            onClick={() => onSelectMovie(movie._id)}
+            onClick={() => {
+              onSelectMovie(movie._id);
+              dispatch(fetchSeats(movie._id));
+            }}
             className={`box ${movieId === movie._id ? " active " : ""}`}
           >
-            <h3>
-              {movie.title} - {movie.time}
-            </h3>
             {movie.image && (
               <img
-                src={movie.image}
+                src={`http://localhost:4000/img/movies/${movie.image}`}
                 alt={movie.title}
                 style={{ width: "100%" }}
               />
             )}
+            <h3>
+              {movie.title} - {movie.time}
+            </h3>
           </li>
         ))}
       </ul>

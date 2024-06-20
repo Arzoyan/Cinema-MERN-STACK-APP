@@ -17,7 +17,7 @@ const moviesSlice = createSlice({
 });
 
 export const selectMoviesByRoom = (state) => state.movies.movies;
-export const selectMoviesStatus = (state) => state.rooms.status;
+export const selectMoviesStatus = (state) => state.movies.status;
 
 export const { resetStatus } = moviesSlice.actions;
 

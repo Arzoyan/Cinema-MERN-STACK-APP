@@ -63,7 +63,14 @@ const MovieList = () => {
         renderItem={(item) => (
           <List.Item>
             <Card
-              cover={item.image && <img alt="example" src={item.image} />}
+              cover={
+                item.image && (
+                  <img
+                    alt="example"
+                    src={`http://localhost:4000/img/movies/${item.image}`}
+                  />
+                )
+              }
               title={item.title}
               actions={[
                 <Button

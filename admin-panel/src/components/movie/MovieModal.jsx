@@ -54,13 +54,15 @@ const MovieModal = ({ item, open, setOpen }) => {
     }
     if (!item?.title) {
       if (movieState.image) {
-        movieState.image = await getBase64(movieState.image.originFileObj);
+        // movieState.image = await getBase64(movieState.image.originFileObj);
+        movieState.image = movieState.image.originFileObj;
       }
 
       dispatch(fetchAddMovie(movieState));
     } else {
       if (movieState.image?.originFileObj) {
-        movieState.image = await getBase64(movieState.image.originFileObj);
+        // movieState.image = await getBase64(movieState.image.originFileObj);
+        movieState.image = movieState.image.originFileObj;
       }
 
       dispatch(fetchUpdateMovie({ id: item._id, body: movieState }));

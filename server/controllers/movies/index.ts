@@ -10,11 +10,12 @@ const createMovie = async (req: Request, res: Response): Promise<void> => {
       time: req.body.time,
     });
     if (!movieByRoom.length) {
-      // if (req.body.image) {
-      //   // Extract the Base64 data part
-      //   req.body.image = req.body.image.replace(/^data:image\/\w+;base64,/, "");
-      // }
-      const movie = await MovieModel.create(req.body);
+      const newMovieData = {
+        ...req.body,
+        image: (req as Request & { locals: { posterName: string } }).locals
+          .posterName,
+      };
+      const movie = await MovieModel.create(newMovieData);
       createSeat({ movieId: movie._id });
       res.status(200).json(movie);
       return;
@@ -53,7 +54,6 @@ const getAllMovie = async (_: Request, res: Response): Promise<void> => {
         };
       }),
     );
-
     res.status(200).json(moviesWithRoomNames);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
