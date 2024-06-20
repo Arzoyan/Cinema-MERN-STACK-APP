@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSates = createAsyncThunk("seats/fetchSates", async (id) => {
-  const response = await fetch(`http://localhost:4000/api/seats/${id}`);
+  const response = await fetch(
+    `https://cinema-server-mern.onrender.com/api/seats/${id}`,
+  );
   const data = await response.json();
   return data;
 });
@@ -9,13 +11,16 @@ export const fetchSates = createAsyncThunk("seats/fetchSates", async (id) => {
 export const updateSeat = createAsyncThunk(
   "seats/updateSeat",
   async ({ id, updatedData }) => {
-    const response = await fetch(`http://localhost:4000/api/seats/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://cinema-server-mern.onrender.com/api/seats/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
       },
-      body: JSON.stringify(updatedData),
-    });
+    );
     if (!response.ok) {
       throw new Error("Failed to update seat");
     }
