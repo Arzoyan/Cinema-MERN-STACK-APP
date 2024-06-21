@@ -16,10 +16,10 @@ const MovieModal = ({ item, open, setOpen }) => {
   const rooms = useSelector(selectRooms);
 
   useEffect(() => {
-    if (item.title) {
+    if (!!item) {
       updateMovieValues(item);
     }
-  }, [item.title]);
+  }, [item]);
 
   const onRestState = () => {
     setRoomId("");
@@ -38,7 +38,7 @@ const MovieModal = ({ item, open, setOpen }) => {
 
   const onCloseModal = () => {
     setOpen(false);
-    // onRestState();
+    onRestState();
   };
 
   const onValidationForm = () => {
@@ -59,7 +59,7 @@ const MovieModal = ({ item, open, setOpen }) => {
       return false;
     }
     let data = { roomId, image, time, title };
-    if (!item?.title) {
+    if (!item && !item?.title) {
       if (data.image) {
         data.image = data.image.originFileObj;
       }
@@ -87,14 +87,6 @@ const MovieModal = ({ item, open, setOpen }) => {
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        Add Movie
-      </Button>
       <Modal
         title={<p>{item?.title ? "Edit Movei" : "Add Movie"}</p>}
         footer={

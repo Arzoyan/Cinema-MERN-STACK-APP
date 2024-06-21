@@ -50,15 +50,24 @@ const MovieList = () => {
 
   return (
     <>
-      {item && (
+      {item || open ? (
         <MovieModal
           open={open}
           setOpen={(isOpen) => {
             setOpen(isOpen);
-            setItem({});
+            setItem();
           }}
           item={item}
         />
+      ) : (
+        <Button
+          type="primary"
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          Add Movie
+        </Button>
       )}
       <List
         grid={{ gutter: 16, column: 4 }}
